@@ -173,6 +173,7 @@ function draw(){
 
 
 	ctx.strokeStyle="#000"
+	ctx.beginPath()
 	ctx.moveTo(-48.25*sf,1.75*sf)
 	ctx.lineTo(-47.75*sf,1.75*sf)
 	ctx.moveTo(-48*sf,1.5*sf)
