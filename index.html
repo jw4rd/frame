@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset=utf-8>
+<title>Frame</title>
+<style>
+
+body{
+	overflow:hidden;
+	margin: 0;
+	font-family:arial; 
+}
+
+input{
+	width:50px;
+}
+
+#parameters{
+	position:absolute;
+	width:100%;
+}
+
+#myCanvas{
+	position:absolute;
+	top:2px;
+	left:2px;
+	border: solid 1px #777;
+}
+
+
+#length-feet{
+	position:absolute;
+	left:40px;
+}
+
+
+#make{
+	position:absolute;
+	width:80px;
+	height:60px;
+	right:10px;
+	bottom:10px;
+}
+
+
+
+</style>
+
+
+</head>
+
+<body onLoad="draw()">
+
+<script src="js/libs/jquery-3.1.1.min.js"></script>
+<script src="js/libs/jquery.mousewheel.min.js"></script>
+<script src="js/libs/three.js"></script>
+
+<script src="js/draw.js"></script>
+<script src="js/make.js"></script>
+
+<canvas id="myCanvas"></canvas>
+
+<a href="#" id="downloadLink"></a>
+
+<div id="parameters" style="top:10px;left:10px">
+
+<p>
+<p>
+&emsp;MEMBER:<br>
+&emsp;&emsp;<select id="member" autocomplete="off">
+	<option value="bottom">BOTTOM PLATE</option>
+	<option disabled value="stud">CRIPPLE</option>
+	<option disabled value="header">HEADER</option>
+	<option disabled value="jack">JACK STUD</option>
+	<option disabled value="saddle">SADDLE</option>
+	<option value="stud">STUD</option>
+	<option selected value="top">TOP PLATE</option>
+
+</select><p>
+
+&emsp;LENGTH:<br>
+&emsp;&emsp;<input type="number" value="81" step="0.0625" id="length" autocomplete="off"/><br>
+<div id="length-feet">6' - 9"</div>
+
+</div>
+
+
+<input type="submit" value="MAKE" id="make" onclick="make()"/>
+
+<script>
+
+//TODO
+
+//
+//add tabs
+//assembly
+
+
+var length = parseFloat($("#length").val())
+
+var tool=0.1875 //radius
+
+//ends
+
+var cut0=[{X:0,Y:0},{X:0,Y:3.5}]
+
+var pocket=[{X:-0.75-tool,Y:-0.255},{X:-0.75-tool,Y:0.255},{X:0.75+tool,Y:0.255},{X:0.75+tool,Y:-0.255}]
+
+var pocketToolPathA=[{X:-1+tool,Y:-0.26+tool},{X:-1+tool,Y:0.26-tool},{X:0.75-tool,Y:0.26-tool},{X:0.75-tool,Y:0.26},{X:0.75-tool,Y:-0.26},{X:0.75-tool,Y:-0.26+tool}]
+var pocketToolPath=[{X:-0.75+tool,Y:-0.26+tool},{X:-0.75+tool,Y:-0.26},{X:-0.75+tool,Y:0.26},{X:-0.75+tool,Y:0.26-tool},{X:0.75-tool,Y:0.26-tool},{X:0.75-tool,Y:0.26},{X:0.75-tool,Y:-0.26},{X:0.75-tool,Y:-0.26+tool}]
+var pocketToolPathB=[{X:-0.75+tool,Y:-0.26+tool},{X:-0.75+tool,Y:-0.26},{X:-0.75+tool,Y:0.26},{X:-0.75+tool,Y:0.26-tool},{X:1-tool,Y:0.26-tool},{X:1-tool,Y:-0.26+tool}]
+
+var drill=[{X:0,Y:0.875},{X:0,Y:-0.875}]
+
+var cut0toolPathA=[{X:0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:0.1,Y:3.5+tool}]
+var cut0toolPathB=[{X:-0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:-0.1,Y:3.5+tool}]
+
+var cut1=[{X:0,Y:0},{X:0,Y:1.5},{X:-0.375,Y:1.5},{X:-0.375,Y:2},{X:0,Y:2},{X:0,Y:3.5}]
+var cut1toolPath=[{X:-tool+0.15,Y:-tool},{X:-tool,Y:0.1},{X:-tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:-(0.375+tool),Y:1.5-tool},{X:-(0.375+tool),Y:2+tool},{X:0,Y:2+tool},{X:-tool,Y:2+tool},{X:-tool,Y:3.35+tool},{X:-tool+0.1,Y:3.5+tool}]
+
+var cut2=[{X:0,Y:0},{X:0,Y:1.5},{X:0.375,Y:1.5},{X:0.375,Y:2},{X:0,Y:2},{X:0,Y:3.5}]
+var cut2toolPath=[{X:tool-0.15,Y:-tool},{X:tool,Y:0.1},{X:tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:(0.375+tool),Y:1.5-tool},{X:(0.375+tool),Y:2+tool},{X:0,Y:2+tool},{X:tool,Y:2+tool},{X:tool,Y:3.35+tool},{X:tool-0.1,Y:3.5+tool}]
+
+//ramps
+
+
+//pocket
+
+
+//drill
+
+
+$("#length").on('change click',function(){
+
+	$("#length-feet").html(Math.floor( $(this).val()/12) + "\' - " + ((($(this).val()/12)%1)*12).toFixed(0) + ((((($(this).val()/12)%1)*12)%1).toFixed(3) + ("\"")).substring(1) )
+
+	length=parseFloat($(this).val())
+	
+	draw()
+
+})
+
+$("#member").on('change click',function(){	
+
+	if(($(this).val()=="top")||($(this).val()=="bottom")){
+		//$("#length").val(92)
+	}
+	if($(this).val()=="stud"){
+		//$("#length").val(81)
+	}
+
+	length=parseFloat($("#length").val())
+	
+	draw()
+
+})
+
+</script>
+</body>
+</html>
