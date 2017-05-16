@@ -30,7 +30,7 @@ function make(){
 
 
 
-			if(length>24){
+			if(length>20){
 
 				//hole 2.5 x 0.5 @ 15
 				sbp+="J2," + 14.75 + "," + 1.6825 + "\n"
