@@ -28,6 +28,26 @@ function make(){
 
 			sbp+="JZ,2\n"
 
+
+
+			if(length>24){
+
+				//hole 2.5 x 0.5 @ 15
+				sbp+="J2," + 14.75 + "," + 1.6825 + "\n"
+				sbp+="JZ,0\n"
+
+				for(i=1;i<4;i++){
+					sbp+="MZ,-" + (0.515*i) + "\n"
+					sbp+="M2," + 17.25 + "," + 1.6825 + "\n"
+					sbp+="M2," + 17.25 + "," + 1.8125 + "\n"
+					sbp+="M2," + 14.75 + "," + 1.8125 + "\n"
+					sbp+="M2," + 14.75 + "," + 1.6825 + "\n"
+				}
+
+				//
+				sbp+="JZ,2\n"
+			}
+
 			//make cut2 at length+1	
 	
 			sbp+="J2," + (cut2toolPath[0].X+1+length) + "," + cut2toolPath[0].Y + "\n"
