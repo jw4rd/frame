@@ -17,6 +17,8 @@ function draw(){
 
 	ctx.fillRect(-48*sf,-1.75*sf,96*sf,3.5*sf)
 
+	space = parseInt($("#space").val())
+
 	//ctx.fill()
 
 	if($("#member").val()=="stud"){
@@ -112,6 +114,8 @@ function draw(){
 		ctx.lineTo( (pocket[0].X-47-0.75+length)*sf,(pocket[0].Y)*sf)
 		ctx.stroke()
 
+		/*
+
 		n=Math.ceil(length/24)
 
 		for(j=1;j<n;j++){
@@ -120,6 +124,19 @@ function draw(){
 				ctx.lineTo( (pocket[i].X-47+(length/n*j))*sf,(pocket[i].Y)*sf)
 			}
 			ctx.lineTo( (pocket[0].X-47+(length/n*j))*sf,(pocket[0].Y)*sf)
+			ctx.stroke()
+
+		}
+
+		*/
+
+
+		for(j=1;j<Math.ceil((length-2.1875)/space);j++){
+			ctx.beginPath()
+			for(i=0;i<pocket.length;i++){
+				ctx.lineTo( (pocket[i].X-47+(space*j))*sf,(pocket[i].Y)*sf)
+			}
+			ctx.lineTo( (pocket[0].X-47+(space*j))*sf,(pocket[0].Y)*sf)
 			ctx.stroke()
 
 		}
@@ -146,6 +163,8 @@ function draw(){
 
 		//center pockets 
 
+		/*
+
 		n=Math.ceil(length/24)
 
 		for(j=1;j<n;j++){
@@ -154,6 +173,19 @@ function draw(){
 				ctx.lineTo( (pocketToolPath[i].X-47+(length/n*j))*sf,(pocketToolPath[i].Y)*sf)
 			}
 			ctx.lineTo( (pocketToolPath[0].X-47+(length/n*j))*sf,(pocketToolPath[0].Y)*sf)
+			ctx.stroke()
+
+		}
+
+		*/
+
+
+		for(j=1;j<Math.ceil((length-2.1875)/space);j++){
+			ctx.beginPath()
+			for(i=0;i<pocketToolPath.length;i++){
+				ctx.lineTo( (pocketToolPath[i].X-47+(space*j))*sf,(pocketToolPath[i].Y)*sf)
+			}
+			ctx.lineTo( (pocketToolPath[0].X-47+(space*j))*sf,(pocketToolPath[0].Y)*sf)
 			ctx.stroke()
 
 		}
@@ -172,12 +204,27 @@ function draw(){
 		ctx.arc( (drill[1].X-47-0.75+length)*sf,(drill[1].Y)*sf,tool*sf,0,Math.PI*2)
 		ctx.fill()
 
+
+		/*
 		for(j=1;j<n;j++){
 
 			ctx.beginPath()
 
 			ctx.arc( (drill[0].X-47+(length/n*j))*sf,(drill[0].Y)*sf,tool*sf,0,Math.PI*2)
 			ctx.arc( (drill[1].X-47+(length/n*j))*sf,(drill[1].Y)*sf,tool*sf,0,Math.PI*2)
+
+			ctx.fill()
+
+		}
+
+		*/
+
+		for(j=1;j<Math.ceil((length-2.1875)/space);j++){
+
+			ctx.beginPath()
+
+			ctx.arc( (drill[0].X-47+(space*j))*sf,(drill[0].Y)*sf,tool*sf,0,Math.PI*2)
+			ctx.arc( (drill[1].X-47+(space*j))*sf,(drill[1].Y)*sf,tool*sf,0,Math.PI*2)
 
 			ctx.fill()
 

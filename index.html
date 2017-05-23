@@ -37,6 +37,7 @@ input{
 }
 
 #three{
+	display:none;
 	position:absolute;
 	right:10px;
 	top:10px;
@@ -45,6 +46,10 @@ input{
 
 #length{
 	width:70px;
+}
+
+#stud{
+	display:none;
 }
 
 
@@ -91,15 +96,14 @@ input{
 
 <p>
 
-<!--
-&emsp;SPACE:<br>
+<div id="stud">
+&emsp;STUD SPACING:<br>
 &emsp;&emsp;<select id="space" autocomplete="off">
-	<option value="24">24" O.C.</option>
-	<option value="16">16" O.C</option>
-	<option value="24e">24" even</option>
-	<option value="16e">16" even</option>
+	<option selected value="24">24" OC</option>
+	<option value="16">16" OC</option>
 </select>
--->
+</div>
+
 </div>
 
 
@@ -133,7 +137,7 @@ input{
 
 
  
-
+var space = 24
 var plateL = 93
 var studL = 81
 
@@ -146,7 +150,8 @@ var tool=0.1875 //radius
 var dim = (Math.floor( length/12) + "\' - " + (((length/12)%1)*12).toFixed(2) + "\"" )
 //ends
 
-var clearance = 0.03
+var chamfer = 0.2
+var clearance = 0.01
 
 var cut0=[{X:0,Y:0},{X:0,Y:3.5}]
 
@@ -164,10 +169,12 @@ var cut0toolPathA=[{X:0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:0.15,Y:3.5+tool}
 var cut0toolPathB=[{X:-0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:-0.15,Y:3.5+tool}]
 
 var cut1=[{X:0,Y:0},{X:0,Y:1.5},{X:-0.375,Y:1.5},{X:-0.375,Y:2},{X:0,Y:2},{X:0,Y:3.5}]
-var cut1toolPath=[{X:-tool+0.15,Y:-tool},{X:-tool,Y:0.1},{X:-tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:-(0.375+tool),Y:1.5-tool},{X:-(0.375+tool),Y:2+tool},{X:0,Y:2+tool},{X:-tool,Y:2+tool},{X:-tool,Y:3.35+tool},{X:-tool+0.1,Y:3.5+tool}]
+
+var cut1toolPath=[{X:-tool+0.25,Y:-tool},{X:-tool,Y:0},{X:-tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:-(0.375+tool)+chamfer,Y:1.5-tool},{X:-(0.375+tool),Y:1.5-tool+chamfer},{X:-(0.375+tool),Y:2+tool-chamfer},{X:-(0.375+tool)+chamfer,Y:2+tool},{X:0,Y:2+tool},{X:-tool,Y:2+tool},{X:-tool,Y:3.5},{X:-tool+0.25,Y:3.5+tool}]
 
 var cut2=[{X:0,Y:0},{X:0,Y:1.5},{X:0.375,Y:1.5},{X:0.375,Y:2},{X:0,Y:2},{X:0,Y:3.5}]
-var cut2toolPath=[{X:tool-0.15,Y:-tool},{X:tool,Y:0.1},{X:tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:(0.375+tool),Y:1.5-tool},{X:(0.375+tool),Y:2+tool},{X:0,Y:2+tool},{X:tool,Y:2+tool},{X:tool,Y:3.35+tool},{X:tool-0.1,Y:3.5+tool}]
+
+var cut2toolPath=[{X:tool-0.25,Y:-tool},{X:tool,Y:0},{X:tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:(0.375+tool)-chamfer,Y:1.5-tool},{X:(0.375+tool),Y:1.5-tool+chamfer},{X:(0.375+tool),Y:2+tool-chamfer},{X:(0.375+tool-chamfer),Y:2+tool},{X:0,Y:2+tool},{X:tool,Y:2+tool},{X:tool,Y:3.5},{X:tool-0.25,Y:3.5+tool}]
 
 $("#length").on('change click',function(){
 
@@ -185,7 +192,7 @@ $("#length").on('change click',function(){
 		studL = length
 	}
 	
-	console.log(length)
+	//console.log(length)
 
 	draw()
 
@@ -195,15 +202,26 @@ $("#member").on('change',function(){
 
 	if(($(this).val()=="top")||($(this).val()=="bottom")){
 		$("#length").val(plateL)
+		$("#stud").css("display","block")
 	}
 	else if($(this).val()=="stud"){
 		$("#length").val(studL)
+		$("#stud").css("display","none")
 	}
 
 	length=parseFloat($("#length").val())
 
 	dim = (Math.floor( length/12) + "\' - " + (((length/12)%1)*12).toFixed(2) + "\"" )
 	
+	draw()
+
+})
+
+
+
+$("#space").on('change',function(){	
+
+		
 	draw()
 
 })

@@ -101,17 +101,17 @@ function make(){
 
 			//stud pockets
 
-			n=Math.ceil(length/24)
+			n=Math.ceil((length-2.1875)/space)
 
 			for(j=1;j<n;j++){
 
-				sbp+="J2," + (pocketToolPath[0].X+1+(length/n*j)) + "," + (pocketToolPath[0].Y+1.75) + "\n"
+				sbp+="J2," + (pocketToolPath[0].X+1+(space*j)).toFixed(3) + "," + (pocketToolPath[0].Y+1.75) + "\n"
 				sbp+="JZ,0.0\n"
 				sbp+="MZ,-0.38\n"
 				for(i=0;i<pocketToolPath.length;i++){
-					sbp+="M2," + (pocketToolPath[i].X+1+(length/n*j)) + "," + (pocketToolPath[i].Y+1.75) + "\n"
+					sbp+="M2," + (pocketToolPath[i].X+1+(space*j)).toFixed(3) + "," + (pocketToolPath[i].Y+1.75) + "\n"
 				}
-				sbp+="M2," + (pocketToolPath[0].X+1+(length/n*j)) + "," + (pocketToolPath[0].Y+1.75) + "\n"
+				sbp+="M2," + (pocketToolPath[0].X+1+(space*j)).toFixed(3) + "," + (pocketToolPath[0].Y+1.75) + "\n"
 				sbp+="JZ,2\n"
 
 			}
