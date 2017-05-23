@@ -3,6 +3,7 @@ function make(){
 		
 		sbp="MS,0.5,0.5\n"
 		sbp+="JZ,2\n"
+		//spindle speed
 		sbp+="C6\n"
 		sbp+="PAUSE 3\n"
 
@@ -28,11 +29,10 @@ function make(){
 
 			sbp+="JZ,2\n"
 
-
-
 			if(length>20){
 
 				//hole 2.5 x 0.5 @ 15
+
 				sbp+="J2," + 14.75 + "," + 1.6825 + "\n"
 				sbp+="JZ,0\n"
 

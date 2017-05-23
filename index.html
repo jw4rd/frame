@@ -28,13 +28,6 @@ input{
 	border: solid 1px #777;
 }
 
-
-#length-feet{
-	position:absolute;
-	left:40px;
-}
-
-
 #make{
 	position:absolute;
 	width:80px;
@@ -43,10 +36,19 @@ input{
 	bottom:10px;
 }
 
+#three{
+	position:absolute;
+	right:10px;
+	top:10px;
+	width:100px;
+}
+
+#length{
+	width:70px;
+}
 
 
 </style>
-
 
 </head>
 
@@ -72,7 +74,8 @@ input{
 	<option value="bottom">BOTTOM PLATE</option>
 	<option disabled value="stud">CRIPPLE</option>
 	<option disabled value="header">HEADER</option>
-	<option disabled value="jack">JACK STUD</option>
+	<option disabled value="jack">JACK</option>
+	<option disabled value="jack">KING</option>
 	<option disabled value="saddle">SADDLE</option>
 	<option selected value="stud">STUD</option>
 	<option value="top">TOP PLATE</option>
@@ -81,7 +84,28 @@ input{
 
 &emsp;LENGTH:<br>
 &emsp;&emsp;<input type="number" value="81" step="0.0625" id="length" autocomplete="off"/><br>
-<div id="length-feet">6' - 9"</div>
+
+<!--
+<len id="length-feet">6' - 9"</len>
+-->
+
+<p>
+
+<!--
+&emsp;SPACE:<br>
+&emsp;&emsp;<select id="space" autocomplete="off">
+	<option value="24">24" O.C.</option>
+	<option value="16">16" O.C</option>
+	<option value="24e">24" even</option>
+	<option value="16e">16" even</option>
+</select>
+-->
+</div>
+
+
+<div id='three'>
+
+3D<input id='3d' type="checkbox" onclick="" autocomplete="off" defaultChecked="false"/><p>
 
 </div>
 
@@ -92,29 +116,52 @@ input{
 
 //TODO
 
-//
+
+//dimensions
+//outline
+//clearance to end pocket 
+//24" & 16" oc
+//extend top and bottom plate for corner
+//label part name bottom 
+//elec
+//spindle speed
+//chamfer stud
+//3d tab 
+
 //add tabs
 //assembly
 
+
+ 
+
+var plateL = 93
+var studL = 81
 
 var length = parseFloat($("#length").val())
 
 var tool=0.1875 //radius
 
+
+
+var dim = (Math.floor( length/12) + "\' - " + (((length/12)%1)*12).toFixed(2) + "\"" )
 //ends
+
+var clearance = 0.03
 
 var cut0=[{X:0,Y:0},{X:0,Y:3.5}]
 
-var pocket=[{X:-0.75-tool,Y:-0.255},{X:-0.75-tool,Y:0.255},{X:0.75+tool,Y:0.255},{X:0.75+tool,Y:-0.255}]
+var pocket=[{X:-0.75,Y:-0.255},{X:-0.75,Y:0.255},{X:0.75,Y:0.255},{X:0.75,Y:-0.255}]
 
-var pocketToolPathA=[{X:-1+tool,Y:-0.26+tool},{X:-1+tool,Y:0.26-tool},{X:0.75-tool,Y:0.26-tool},{X:0.75-tool,Y:0.26},{X:0.75-tool,Y:-0.26},{X:0.75-tool,Y:-0.26+tool}]
+var pocketToolPathA=[{X:-1+tool,Y:-0.26+tool},{X:-1+tool,Y:0.26-tool},{X:0.75-tool+clearance,Y:0.26-tool},{X:0.75-tool+clearance,Y:0.26},{X:0.75-tool+clearance,Y:-0.26},{X:0.75+clearance-tool,Y:-0.26+tool}]
+
 var pocketToolPath=[{X:-0.75+tool,Y:-0.26+tool},{X:-0.75+tool,Y:-0.26},{X:-0.75+tool,Y:0.26},{X:-0.75+tool,Y:0.26-tool},{X:0.75-tool,Y:0.26-tool},{X:0.75-tool,Y:0.26},{X:0.75-tool,Y:-0.26},{X:0.75-tool,Y:-0.26+tool}]
-var pocketToolPathB=[{X:-0.75+tool,Y:-0.26+tool},{X:-0.75+tool,Y:-0.26},{X:-0.75+tool,Y:0.26},{X:-0.75+tool,Y:0.26-tool},{X:1-tool,Y:0.26-tool},{X:1-tool,Y:-0.26+tool}]
+
+var pocketToolPathB=[{X:-0.75+tool-clearance,Y:-0.26+tool},{X:-0.75+tool-clearance,Y:-0.26},{X:-0.75+tool-clearance,Y:0.26},{X:-0.75+tool-clearance,Y:0.26-tool},{X:1-tool,Y:0.26-tool},{X:1-tool,Y:-0.26+tool}]
 
 var drill=[{X:0,Y:0.875},{X:0,Y:-0.875}]
 
-var cut0toolPathA=[{X:0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:0.1,Y:3.5+tool}]
-var cut0toolPathB=[{X:-0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:-0.1,Y:3.5+tool}]
+var cut0toolPathA=[{X:0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:0.15,Y:3.5+tool}]
+var cut0toolPathB=[{X:-0.15,Y:-tool},{X:0,Y:0.1},{X:0,Y:3.35},{X:-0.15,Y:3.5+tool}]
 
 var cut1=[{X:0,Y:0},{X:0,Y:1.5},{X:-0.375,Y:1.5},{X:-0.375,Y:2},{X:0,Y:2},{X:0,Y:3.5}]
 var cut1toolPath=[{X:-tool+0.15,Y:-tool},{X:-tool,Y:0.1},{X:-tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:-(0.375+tool),Y:1.5-tool},{X:-(0.375+tool),Y:2+tool},{X:0,Y:2+tool},{X:-tool,Y:2+tool},{X:-tool,Y:3.35+tool},{X:-tool+0.1,Y:3.5+tool}]
@@ -122,36 +169,40 @@ var cut1toolPath=[{X:-tool+0.15,Y:-tool},{X:-tool,Y:0.1},{X:-tool,Y:1.5-tool},{X
 var cut2=[{X:0,Y:0},{X:0,Y:1.5},{X:0.375,Y:1.5},{X:0.375,Y:2},{X:0,Y:2},{X:0,Y:3.5}]
 var cut2toolPath=[{X:tool-0.15,Y:-tool},{X:tool,Y:0.1},{X:tool,Y:1.5-tool},{X:0,Y:1.5-tool},{X:(0.375+tool),Y:1.5-tool},{X:(0.375+tool),Y:2+tool},{X:0,Y:2+tool},{X:tool,Y:2+tool},{X:tool,Y:3.35+tool},{X:tool-0.1,Y:3.5+tool}]
 
-//ramps
-
-
-//pocket
-
-
-//drill
-
-
 $("#length").on('change click',function(){
 
-	$("#length-feet").html(Math.floor( $(this).val()/12) + "\' - " + ((($(this).val()/12)%1)*12).toFixed(0) + ((((($(this).val()/12)%1)*12)%1).toFixed(3) + ("\"")).substring(1) )
+	//$("#length-feet").html(Math.floor( $(this).val()/12) + "\' - " + ((($(this).val()/12)%1)*12).toFixed(3) + (("\"")).substring(1) )
+
+	dim = (Math.floor( $(this).val()/12) + "\' - " + ((($(this).val()/12)%1)*12).toFixed(2) + "\"" )
 
 	length=parseFloat($(this).val())
+
+
+	if(($("#member").val()=="top")||($(this).val()=="bottom")){
+		plateL = length
+	}
+	else if($("#member").val()=="stud"){
+		studL = length
+	}
 	
+	console.log(length)
+
 	draw()
 
 })
 
-$("#member").on('change click',function(){	
+$("#member").on('change',function(){	
 
 	if(($(this).val()=="top")||($(this).val()=="bottom")){
-		//$("#length").val(92)
+		$("#length").val(plateL)
 	}
-	if($(this).val()=="stud"){
-		//$("#length").val(81)
-		//$("#length").val(81)
+	else if($(this).val()=="stud"){
+		$("#length").val(studL)
 	}
 
 	length=parseFloat($("#length").val())
+
+	dim = (Math.floor( length/12) + "\' - " + (((length/12)%1)*12).toFixed(2) + "\"" )
 	
 	draw()
 

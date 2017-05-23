@@ -17,13 +17,18 @@ function draw(){
 
 	ctx.fillRect(-48*sf,-1.75*sf,96*sf,3.5*sf)
 
+	//ctx.fill()
 
 	if($("#member").val()=="stud"){
 
+		ctx.clearRect((-47+13.5)*sf,-0.25*sf,2.5*sf,0.25*sf)
+
 		ctx.beginPath()
+		ctx.lineTo((-47+length)*sf,(-1.75)*sf)
 		for(i=0;i<cut1.length;i++){
 			ctx.lineTo((cut1[i].X-47)*sf,(cut1[i].Y-1.75)*sf)
 		}
+		ctx.lineTo((-47+length)*sf,(1.75)*sf)
 		ctx.stroke()
 
 		ctx.beginPath()
@@ -46,6 +51,14 @@ function draw(){
 		}
 		ctx.stroke()
 
+		ctx.strokeStyle="#000"
+
+		ctx.beginPath()
+
+			ctx.rect((-47+13.5)*sf,-0.25*sf,2.5*sf,0.25*sf)
+
+		ctx.stroke()
+
 
 
 	}
@@ -53,9 +66,11 @@ function draw(){
 
 
 		ctx.beginPath()
+		ctx.lineTo((-47+length)*sf,(-1.75)*sf)
 		for(i=0;i<cut0.length;i++){
 			ctx.lineTo((cut0[i].X-47)*sf,(cut0[i].Y-1.75)*sf)
 		}
+		ctx.lineTo((-47+length)*sf,(1.75)*sf)
 		ctx.stroke()
 
 
@@ -112,7 +127,7 @@ function draw(){
 		//pocket toolpath
 
 		//first
-		ctx.strokeStyle="#000"
+		ctx.strokeStyle="#aa00ff"
 		ctx.beginPath()
 		for(i=0;i<pocketToolPathA.length;i++){
 			ctx.lineTo( (pocketToolPathA[i].X-47+0.75)*sf,(pocketToolPathA[i].Y)*sf)
@@ -145,7 +160,7 @@ function draw(){
 
 		//drill
 		
-		ctx.fillStyle="#ff0000"
+		ctx.fillStyle="#ff69b4"
 
 		ctx.beginPath()
 		ctx.arc( (drill[0].X-47+0.75)*sf,(drill[0].Y)*sf,tool*sf,0,Math.PI*2)
@@ -171,7 +186,8 @@ function draw(){
 
 	}
 
-
+	//origin
+	
 	ctx.strokeStyle="#000"
 	ctx.beginPath()
 	ctx.moveTo(-48.25*sf,1.75*sf)
@@ -179,5 +195,50 @@ function draw(){
 	ctx.moveTo(-48*sf,1.5*sf)
 	ctx.lineTo(-48*sf,2*sf)
 	ctx.stroke()
+	
+
+	//dims(
+
+	ctx.fillStyle="#ff6666"
+	ctx.font = "18px Arial"
+	ctx.fillText(dim,(-ctx.measureText(dim).width/2)-(47*sf)+((length/2)*sf),50);
+
+
+	//console.log(ctx.measureText(dim))
+
+
+	ctx.lineWidth=0.6;	
+	ctx.strokeStyle="#ff0000"
+	ctx.beginPath()
+	ctx.lineTo(-47*sf,38)
+	ctx.lineTo(-47*sf,50)
+	ctx.moveTo(-47*sf,44)
+	ctx.lineTo((-(47*sf)+((length/2)*sf))-(ctx.measureText(dim).width+20)/2,44)
+	ctx.moveTo((-(47*sf)+((length/2)*sf))+(ctx.measureText(dim).width+20)/2,44)
+	ctx.lineTo((-47+length)*sf,44)
+	ctx.moveTo((-47+length)*sf,38)
+	ctx.lineTo((-47+length)*sf,50)
+	ctx.stroke()
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
